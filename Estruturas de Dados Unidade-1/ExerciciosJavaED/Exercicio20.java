@@ -3,7 +3,7 @@ import java.util.Arrays;
 
 public class Exercicio20 {
     public static void main(String[] args) {
-        String[] palavras = {"uva", "maçã", "pera", "uva", "laranja", "uva"};
+        String[] palavras = {"uva", "maçã", "pera", "goiaba", "laranja", "uva"};
         String remover = "uva";
 
         ArrayList<String> novaLista = new ArrayList<>();
