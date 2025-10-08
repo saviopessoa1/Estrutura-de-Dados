@@ -29,17 +29,21 @@ public class LinkedStack<T> implements Stackable <T>{
 	 * @return o elemento do topo
 	 * @throws NoSuchElementException se a pilha estiver vazia
 	 */
-
+    
     @Override
-    public T pop(){
-        if (isEmpty()){
-            throw new NoSuchElementException("Pilha está vazia!");
-        }
-        numberElements--;
-        T auxData = topPointer.getData();
-        topPointer = topPointer.getPrev();
+    public T pop() {
+    if (isEmpty()) {
+        throw new NoSuchElementException("Pilha está vazia!");
+    }
+    T auxData = topPointer.getData();
+    topPointer = topPointer.getPrev(); // O topPointer pode virar NULL aqui
+
+    if (topPointer != null) {
         topPointer.setNext(null);
-        return auxData;
+    }
+
+    numberElements--;
+    return auxData;
     }
     /**
 	 * Adiciona um elemento ao topo da pilha.
@@ -89,7 +93,11 @@ public class LinkedStack<T> implements Stackable <T>{
         if (isEmpty()){
             throw new NoSuchElementException("Pilha está cheivazia!");
         }
+         if (topPointer != null) {
+        topPointer.setNext(null);
+    }
         return topPointer.getData();
+        
     }
     
     /**
