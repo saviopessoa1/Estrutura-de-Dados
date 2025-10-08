@@ -56,14 +56,17 @@ public class LinkedStack<T> implements Stackable <T>{
         } else {
         DoubleNode<T> newNode = new DoubleNode<>();
         newNode.setData(data);
+        if (isEmpty()){
         topPointer.setNext(newNode);
         newNode.setPrev(topPointer);
         topPointer = newNode;
         numberElements++;
         }
+
+        }
         return data;
     }
-
+    
     /**
 	 * Atualiza o topo da pilha.
 	 *
@@ -82,7 +85,7 @@ public class LinkedStack<T> implements Stackable <T>{
     @Override
     public T peek(){
         if (isEmpty()){
-            throw new NoSuchElementException("Pilha está cheia!");
+            throw new NoSuchElementException("Pilha está cheivazia!");
         }
         return topPointer.getData();
     }
