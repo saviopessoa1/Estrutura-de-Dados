@@ -49,22 +49,24 @@ public class LinkedStack<T> implements Stackable <T>{
 	 */
 
 
-    @Override
-    public T push (T data){
-        if (isFull()) {
-            throw new IllegalStateException("Stack is full!");
-        } else {
-        DoubleNode<T> newNode = new DoubleNode<>();
-        newNode.setData(data);
-        if (isEmpty()){
+   // CÓDIGO CORRIGIDO PARA O PUSH
+   @Override
+   public T push(T data) {
+    if (isFull()) {
+        throw new IllegalStateException("Stack is full!");
+    }
+    DoubleNode<T> newNode = new DoubleNode<>();
+    newNode.setData(data);
+
+    if (isEmpty()) { // CHECAMOS SE ESTÁ VAZIA PRIMEIRO!
+        topPointer = newNode; // Se estiver vazia, o novo nó simplesmente vira o topo.
+    } else { // SE JÁ TEM ALGUM ELEMENTO, AÍ SIM CONECTAMOS.
         topPointer.setNext(newNode);
         newNode.setPrev(topPointer);
         topPointer = newNode;
-        numberElements++;
-        }
-
-        }
-        return data;
+    }
+    numberElements++;
+    return data;
     }
     
     /**
@@ -111,8 +113,8 @@ public class LinkedStack<T> implements Stackable <T>{
     public boolean isFull(){
         return maximoElementos == numberElements;
     }
-
-public String print() {
+    
+    public String print() {
 		String resultado = "[";
 		DoubleNode<T> auxPointer = topPointer;
 		for (int i = 0; i < numberElements; i++) {
