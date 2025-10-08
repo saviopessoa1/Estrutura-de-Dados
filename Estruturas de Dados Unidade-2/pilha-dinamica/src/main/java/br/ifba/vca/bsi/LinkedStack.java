@@ -11,7 +11,6 @@ import java.util.NoSuchElementException;
  */
 
 public class LinkedStack<T> implements Stackable <T>{
-   /** apontar para o topo da pilha*/ 
 
     private DoubleNode<T> topPointer;
     private int numberElements;
@@ -29,14 +28,14 @@ public class LinkedStack<T> implements Stackable <T>{
 	 * @return o elemento do topo
 	 * @throws NoSuchElementException se a pilha estiver vazia
 	 */
-    
+
     @Override
     public T pop() {
     if (isEmpty()) {
         throw new NoSuchElementException("Pilha está vazia!");
     }
     T auxData = topPointer.getData();
-    topPointer = topPointer.getPrev(); // O topPointer pode virar NULL aqui
+    topPointer = topPointer.getPrev(); 
 
     if (topPointer != null) {
         topPointer.setNext(null);
@@ -53,7 +52,6 @@ public class LinkedStack<T> implements Stackable <T>{
 	 */
 
 
-   // CÓDIGO CORRIGIDO PARA O PUSH
    @Override
    public T push(T data) {
     if (isFull()) {
@@ -62,9 +60,9 @@ public class LinkedStack<T> implements Stackable <T>{
     DoubleNode<T> newNode = new DoubleNode<>();
     newNode.setData(data);
 
-    if (isEmpty()) { // CHECAMOS SE ESTÁ VAZIA PRIMEIRO!
-        topPointer = newNode; // Se estiver vazia, o novo nó simplesmente vira o topo.
-    } else { // SE JÁ TEM ALGUM ELEMENTO, AÍ SIM CONECTAMOS.
+    if (isEmpty()) { 
+        topPointer = newNode; 
+    } else { 
         topPointer.setNext(newNode);
         newNode.setPrev(topPointer);
         topPointer = newNode;
