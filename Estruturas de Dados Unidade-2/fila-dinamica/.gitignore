@@ -1,0 +1,16 @@
+# Pasta de build do Maven, onde ficam os .class
+/target/
+
+# Ignorar arquivos .class em qualquer lugar
+*.class
+
+# Arquivos de Log
+*.log
+
+# Arquivos de configuração de IDEs (VS Code, IntelliJ)
+.vscode/
+.idea/
+
+# Arquivos de sistema operacional (Mac, Windows)
+.DS_Store
+Thumbs.db
