@@ -8,7 +8,7 @@ public class LinkedDEQUe<T> implements Queueable<T> {
     private DoubleNode<T> head;
     private DoubleNode<T> tail;
 
-    public LinkedDEQUe(){
+    public LinkedDEQUe() {
         this(10);
     }
 
@@ -18,7 +18,8 @@ public class LinkedDEQUe<T> implements Queueable<T> {
         head = null;
         tail = null;
     }
-    public boolean isFull(){
+
+    public boolean isFull() {
         return amount == capacity;
     }
 
@@ -28,81 +29,108 @@ public class LinkedDEQUe<T> implements Queueable<T> {
      * @return true se a fila está vazia,
      * e false caso contrário
      */
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return amount == 0;
     }
-    
-    public void beginEnqueue (){
 
+    // Cria um novo nó
+    // Seto o dado neste novo nó
+
+    // Ajustar quantro ponteiros
+
+    public void endEnqueue(T data) {
+        if (isFull()) {
+            throw new NoSuchElementException("Fila cheia");
+        }
+        DoubleNode<T> newNode = new DoubleNode<>();
+        newNode.setData(data);
+        if (isEmpty()) {
+            tail = newNode;
+            head = newNode;
+        } else {
+            newNode.setPrev(tail);
+            tail.setNext(newNode);
+            tail = tail.getNext();
+        }
+        amount++;
     }
-    
-    
-    public T endDequeue (){
-          if (isEmpty()){
+
+    public void beginEnqueue(T data) {
+        if (isFull()) {
+            throw new NoSuchElementException("Fila cheia");
+        }
+        DoubleNode<T> newNode = new DoubleNode<>();
+        newNode.setData(data);
+        if (isEmpty()) {
+            tail = newNode;
+            head = newNode;
+        } else {
+            newNode.setNext(head);
+            head.setPrev(newNode);
+            head = head.getPrev();
+        }
+        amount++;
+    }
+
+    public T endDequeue() {
+        if (isEmpty()) {
             throw new NoSuchElementException("Fila vazia");
         }
-         amount--;
+        amount--;
         T auxData = tail.getData();
-        tail = tail.setPrevious();
+        tail = tail.getPrev();
 
-        if (!!isEmpty()){
-        tail.setNext(null);
-        
-    } else {
-            head =null;
-        }
-    }
+        if (!!isEmpty()) {
+            tail.setNext(null);
 
-
-
-    //Arrumar os ponteiros para que esses dados seja desvinculados da estrutura de dados
-        //head vai para o próximo
-        //setar o anterior de head com null;
-    public T beginDequeue (){
-          if (isEmpty()){
-            throw new NoSuchElementException("Fila vazia");
-        }
-                amount--;
-
-        T auxData = head.getData();
-        head = head.setNext();
-
-        if (!!isEmpty()){
-        head.setPrevious(null);
-        
-    } else {
-            tail =null;
+        } else {
+            head = null;
         }
         return auxData;
     }
 
-     public T endEnqueue (){
+    // Arrumar os ponteiros para que esses dados seja desvinculados da estrutura de
+    // dados
+    // head vai para o próximo
+    // setar o anterior de head com null;
+    public T beginDequeue() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Fila vazia");
+        }
 
+        amount--;
+
+        T auxData = head.getData();
+        head = head.getNext();
+
+        if (!!isEmpty()) {
+            head.setPrev(null);
+
+        } else {
+            tail = null;
+        }
+        return auxData;
     }
 
-
-     public T front (){
-        if (isEmpty()){
+    public T front() {
+        if (isEmpty()) {
             throw new NoSuchElementException("Fila vazia");
         }
         return head.getData();
     }
 
-
-         public T tail (){
-        if (isEmpty()){
+    public T tail() {
+        if (isEmpty()) {
             throw new NoSuchElementException("Fila vazia");
         }
         return tail.getData();
     }
 
-
-    public String printFrontTorear(){
-
+    public String printFrontTorear() {
+        
     }
 
-
-     public String printRearTorear(){
+    public String printRearTorear() {
 
     }
 }
