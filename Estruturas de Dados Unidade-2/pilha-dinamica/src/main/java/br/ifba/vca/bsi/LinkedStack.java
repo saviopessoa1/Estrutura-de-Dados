@@ -15,6 +15,7 @@ public class LinkedStack<T> implements Stackable <T>{
     private DoubleNode<T> topPointer;
     private int numberElements;
     private int maximoElementos;
+    //main
 
     public LinkedStack(int maximoElementos){
         topPointer = null;

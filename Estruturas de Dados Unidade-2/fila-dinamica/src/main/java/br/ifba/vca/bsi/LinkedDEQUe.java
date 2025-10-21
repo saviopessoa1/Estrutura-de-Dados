@@ -12,7 +12,7 @@ public class LinkedDEQUe<T> implements Queueable<T> {
         this(10);
     }
 
-    public LinkedDEQue(int capacity) {
+    public LinkedDEQUe(int capacity) {
         amount = 0;
         this.capacity = capacity;
         head = null;
@@ -127,10 +127,45 @@ public class LinkedDEQUe<T> implements Queueable<T> {
     }
 
     public String printFrontTorear() {
+        if (isEmpty()) {
+            return "[]";
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        
+        DoubleNode<T> current = head;
+        while (current != null) {
+            sb.append(current.getData());
+            if (current.getNext() != null) {
+                sb.append(", ");
+            }
+            current = current.getNext();
+        }
+        
+        sb.append("]");
+        return sb.toString();
         
     }
 
     public String printRearTorear() {
+        if (isEmpty()) {
+            return "[]";
+        }
 
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+
+        DoubleNode<T> current = tail; 
+        while (current != null) {
+            sb.append(current.getData());
+            if (current.getPrev() != null) {
+                sb.append(", ");
+            }
+            current = current.getPrev();
+        }
+
+        sb.append("]");
+        return sb.toString();
     }
-}
+    }
