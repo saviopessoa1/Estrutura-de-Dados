@@ -1,7 +1,6 @@
 package br.ifba.vca.bsi;
 
 public interface Queueable<T> {
-        // Verifica se a fila está cheia
         public boolean isFull();
         public boolean isEmpty();
         public void beginEnqueue(T data);

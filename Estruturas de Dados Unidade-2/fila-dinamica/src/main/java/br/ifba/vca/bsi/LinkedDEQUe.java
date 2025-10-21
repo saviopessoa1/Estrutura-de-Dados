@@ -1,6 +1,13 @@
 package br.ifba.vca.bsi;
 
 import java.util.NoSuchElementException;
+/** Implementação de uma pilha dinamica generica T
+ * 
+ * @param T, tipo de dado que será armazenado na fila
+ * @author Sávio Neri Pessoa
+ * @version 1.0
+ * @since 06/10/2025
+ */
 
 public class LinkedDEQUe<T> implements Queueable<T> {
     private int amount;
