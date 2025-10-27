@@ -1,4 +1,4 @@
-package btr.ifba.vca.bsi;
+package br.ifba.vca.bsi;
 
 public class Main {
     public static void main(String[] args) {
