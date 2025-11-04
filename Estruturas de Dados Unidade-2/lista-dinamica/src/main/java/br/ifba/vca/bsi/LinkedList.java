@@ -3,14 +3,13 @@ package br.ifba.vca.bsi;
 
 public class LinkedList<T> implements Listable<T> {
 
-	/** Quantidade atual de elementos na lista */
 	private int amount;
 	
 	private int size;
 	
 	private DoubleNode<T> topPointer;
 	
-	private DoubleNode<T> ponteiroFim;
+	private DoubleNode<T> endPointer;
 
 	public LinkedList() {
 		this(10);
@@ -19,7 +18,7 @@ public class LinkedList<T> implements Listable<T> {
 	
 	public LinkedList(int size) {
 		topPointer = null;
-		ponteiroFim = null;
+		endPointer = null;
 		amount = 0;
 		this.size = size;
 	}
@@ -33,65 +32,65 @@ public class LinkedList<T> implements Listable<T> {
 		DoubleNode<T> TempNode = new DoubleNode<>();
 		TempNode.setData(data);
 		if (!isEmpty()) {
-			ponteiroFim.setPrev(TempNode);
-			TempNode.setPrev(ponteiroFim);
+			endPointer.setPrev(TempNode);
+			TempNode.setPrev(endPointer);
 		} else {
 			topPointer = TempNode;
 		}
-		ponteiroFim = TempNode;
+		endPointer = TempNode;
 		amount++;
 	}
 
 	@Override
-	public void insert(int posicao, T data) {
+	public void insert(int position, T data) {
 		if (isEmpty()) {
 			throw new OverflowException("Lista Cheia!");
 		}
-		if (!(posicao >= 0 && posicao <= amount)) {
+		if (!(position >= 0 && position <= amount)) {
 			throw new IndexOutOfBoundsException("Indice Invalido!");
 		}
 		DoubleNode<T> newNode = new DoubleNode<>();
 		newNode.setData(data);
 
-		DoubleNode<T> ponteiroAnterior = null;
-		DoubleNode<T> ponteiroProximo = topPointer;
+		DoubleNode<T> prevPointer = null;
+		DoubleNode<T> nextPointer = topPointer;
 
-		for (int i = 0; i < posicao; i++) {
-			ponteiroAnterior = ponteiroProximo;
-			ponteiroProximo = ponteiroProximo.getNext();
+		for (int i = 0; i < position; i++) {
+			prevPointer = nextPointer;
+			nextPointer = nextPointer.getNext();
 		}
 
-		if (ponteiroAnterior != null) {
-			ponteiroAnterior.setNext(newNode);
+		if (prevPointer != null) {
+			prevPointer.setNext(newNode);
 		} else {
 			topPointer = newNode;
 		}
 
-		if (ponteiroProximo != null) {
-			ponteiroProximo.setPrev(newNode);
+		if (nextPointer != null) {
+			nextPointer.setPrev(newNode);
 			// se o proximo é nulo é pq a insercao está sendo no fim (append)
 		} else {
-			ponteiroFim = newNode;
+			endPointer = newNode;
 		}
 
-		newNode.setPrev(ponteiroAnterior);
-		newNode.setNext(ponteiroProximo);
+		newNode.setPrev(prevPointer);
+		newNode.setNext(nextPointer);
 
 		amount++;
 	}
 
 
 	@Override
-	public T select(int posicao) {
+	public T select(int position) {
 		if (isEmpty()) {
 			throw new UnderflowException("Lista Vazia!");
 		}
-		if (!(posicao >= 0 && posicao < amount)) {
+		if (!(position >= 0 && position < amount)) {
 			throw new IndexOutOfBoundsException("Indice Invalido!");
 		}
 
 		DoubleNode<T> auxPointer = topPointer;
-		for (int i = 0; i < posicao; i++) {
+		for (int i = 0; i < position; i++) {
 			auxPointer = auxPointer.getNext();
 		}
 		return auxPointer.getData();
@@ -103,57 +102,57 @@ public class LinkedList<T> implements Listable<T> {
 		if (isEmpty()) {
 			throw new UnderflowException("Lista Vazia!");
 		}
-		T[] dadosTemporario = (T[]) new Object[amount];
-		DoubleNode<T> ponteiroAuxiliar = topPointer;
+		T[] tempData = (T[]) new Object[amount];
+		DoubleNode<T> auxPointer = topPointer;
 		for (int i = 0; i < amount; i++) {
-			dadosTemporario[i] = ponteiroAuxiliar.getData();
-			ponteiroAuxiliar = ponteiroAuxiliar.getNext();
+			tempData[i] = auxPointer.getData();
+			auxPointer = auxPointer.getNext();
 		}
-		return dadosTemporario;
+		return tempData;
 	}
 
 	@Override
-	public void update(int posicao, T newData) {
+	public void update(int position, T newData) {
 		if (isEmpty()) {
 			throw new UnderflowException("Lista Vazia!");
 		}
-		if (!(posicao >= 0 && posicao < amount)) {
+		if (!(position >= 0 && position < amount)) {
 			throw new IndexOutOfBoundsException("Indice Invalido!");
 		}
 
 		DoubleNode<T> auxPointer = topPointer;
-		for (int i = 0; i < posicao; i++) {
+		for (int i = 0; i < position; i++) {
 			auxPointer = auxPointer.getNext();
 		}
 		auxPointer.setData(newData);
 	}
 
 	@Override
-	public T delete(int posicao) {
+	public T delete(int position) {
 		if (isEmpty()) {
 			throw new UnderflowException("Lista Vazia!");
 		}
-		if (!(posicao >= 0 && posicao < amount)) {
+		if (!(position >= 0 && position < amount)) {
 			throw new IndexOutOfBoundsException("Indice Invalido!");
 		}
 
 		DoubleNode<T> auxPointer = topPointer;
-		for (int i = 0; i < posicao; i++) {
+		for (int i = 0; i < position; i++) {
 			auxPointer = auxPointer.getNext();
 		}
 
-		DoubleNode<T> ponteiroAnterior = auxPointer.getPrev();
-		DoubleNode<T> ponteiroProximo = auxPointer.getNext();
+		DoubleNode<T> nextPointer = auxPointer.getPrev();
+		DoubleNode<T> prevPointer = auxPointer.getNext();
 
-		if (ponteiroAnterior != null) {
-			ponteiroAnterior.setNext(ponteiroProximo);
+		if (nextPointer != null) {
+			nextPointer.setNext(prevPointer);
 		} else {
 			topPointer = topPointer.getNext();
 		}
-		if (ponteiroProximo != null) {
-			ponteiroProximo.setPrev(ponteiroAnterior);
+		if (prevPointer != null) {
+			prevPointer.setPrev(nextPointer);
 		} else {
-			ponteiroFim = ponteiroFim.getPrev();
+			endPointer = endPointer.getPrev();
 		}
 
 		amount--;
@@ -172,15 +171,15 @@ public class LinkedList<T> implements Listable<T> {
 
 	@Override
 	public String print() {
-		String resultado = "[";
-		DoubleNode<T> ponteiroAuxiliar = topPointer;
+		String result = "[";
+		DoubleNode<T> auxPointer = topPointer;
 		for (int i = 0; i < amount; i++) {
-			resultado += ponteiroAuxiliar.getData();
+			result += auxPointer.getData();
 			if (i != amount - 1) {
-				resultado += ",";
+				result += ",";
 			}
-			ponteiroAuxiliar = ponteiroAuxiliar.getNext();
+			auxPointer = auxPointer.getNext();
 		}
-		return resultado + "]";
+		return result + "]";
 	}
 }
