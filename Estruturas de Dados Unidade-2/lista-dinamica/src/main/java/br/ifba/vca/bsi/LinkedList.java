@@ -68,7 +68,6 @@ public class LinkedList<T> implements Listable<T> {
 
 		if (nextPointer != null) {
 			nextPointer.setPrev(newNode);
-			// se o proximo é nulo é pq a insercao está sendo no fim (append)
 		} else {
 			endPointer = newNode;
 		}
