@@ -47,36 +47,35 @@ public class LinkedList<T> implements Listable<T> {
 		if (isEmpty()) {
 			throw new OverflowException("Lista Cheia!");
 		}
-		if (!(posicao >= 0 && posicao <= quantidade)) {
+		if (!(posicao >= 0 && posicao <= amount)) {
 			throw new IndexOutOfBoundsException("Indice Invalido!");
 		}
-		NoDuplo<T> noTemporario = new NoDuplo<>();
-		noTemporario.setDado(dado);
+		DoubleNode<T> newNode = new DoubleNode<>();
+		newNode.setData(data);
 
-		NoDuplo<T> ponteiroAnterior = null;
-		NoDuplo<T> ponteiroProximo = ponteiroInicio;
+		DoubleNode<T> ponteiroAnterior = null;
+		DoubleNode<T> ponteiroProximo = topPointer;
 
 		for (int i = 0; i < posicao; i++) {
 			ponteiroAnterior = ponteiroProximo;
-			ponteiroProximo = ponteiroProximo.getProximo();
+			ponteiroProximo = ponteiroProximo.getNext();
 		}
 
 		if (ponteiroAnterior != null) {
-			ponteiroAnterior.setProximo(noTemporario);
-			// se o anterior é nulo é pq a insercao está sendo no inicio
+			ponteiroAnterior.setNext(newNode);
 		} else {
-			ponteiroInicio = noTemporario;
+			topPointer = newNode;
 		}
 
 		if (ponteiroProximo != null) {
-			ponteiroProximo.setAnterior(noTemporario);
+			ponteiroProximo.setPrev(newNode);
 			// se o proximo é nulo é pq a insercao está sendo no fim (append)
 		} else {
-			ponteiroFim = noTemporario;
+			ponteiroFim = newNode;
 		}
 
-		noTemporario.setAnterior(ponteiroAnterior);
-		noTemporario.setProximo(ponteiroProximo);
+		newNode.setPrev(ponteiroAnterior);
+		newNode.setNext(ponteiroProximo);
 
 		amount++;
 	}
@@ -84,7 +83,7 @@ public class LinkedList<T> implements Listable<T> {
 
 	@Override
 	public T select(int posicao) {
-		if (estaVazia()) {
+		if (isEmpty()) {
 			throw new UnderflowException("Lista Vazia!");
 		}
 		if (!(posicao >= 0 && posicao < amount)) {
@@ -101,10 +100,10 @@ public class LinkedList<T> implements Listable<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public T[] selectAll() {
-		if (estaVazia()) {
+		if (isEmpty()) {
 			throw new UnderflowException("Lista Vazia!");
 		}
-		T[] dadosTemporario = (T[]) new Object[quantidade];
+		T[] dadosTemporario = (T[]) new Object[amount];
 		DoubleNode<T> ponteiroAuxiliar = topPointer;
 		for (int i = 0; i < amount; i++) {
 			dadosTemporario[i] = ponteiroAuxiliar.getData();
@@ -113,108 +112,74 @@ public class LinkedList<T> implements Listable<T> {
 		return dadosTemporario;
 	}
 
-	/**
-	 * Atualiza o elemento em uma posição específica da lista.
-	 *
-	 * @param posicao a posição do elemento a ser atualizado
-	 * @param novoDado o novo elemento
-	 * @throws UnderflowException se a lista estiver vazia
-	 * @throws IndexOutOfBoundsException se a posição for inválida
-	 */
 	@Override
-	public void atualizar(int posicao, T novoDado) {
-		if (estaVazia()) {
+	public void update(int posicao, T newData) {
+		if (isEmpty()) {
 			throw new UnderflowException("Lista Vazia!");
 		}
-		if (!(posicao >= 0 && posicao < quantidade)) {
+		if (!(posicao >= 0 && posicao < amount)) {
 			throw new IndexOutOfBoundsException("Indice Invalido!");
 		}
 
-		NoDuplo<T> ponteiroAuxiliar = ponteiroInicio;
+		DoubleNode<T> auxPointer = topPointer;
 		for (int i = 0; i < posicao; i++) {
-			ponteiroAuxiliar = ponteiroAuxiliar.getProximo();
+			auxPointer = auxPointer.getNext();
 		}
-		ponteiroAuxiliar.setDado(novoDado);
+		auxPointer.setData(newData);
 	}
 
-	/**
-	 * Remove o elemento em uma posição específica da lista.
-	 *
-	 * @param posicao a posição do elemento a ser removido
-	 * @return o elemento removido
-	 * @throws UnderflowException se a lista estiver vazia
-	 * @throws IndexOutOfBoundsException se a posição for inválida
-	 */
 	@Override
-	public T apagar(int posicao) {
-		if (estaVazia()) {
+	public T delete(int posicao) {
+		if (isEmpty()) {
 			throw new UnderflowException("Lista Vazia!");
 		}
-		if (!(posicao >= 0 && posicao < quantidade)) {
+		if (!(posicao >= 0 && posicao < amount)) {
 			throw new IndexOutOfBoundsException("Indice Invalido!");
 		}
 
-		NoDuplo<T> ponteiroAuxiliar = ponteiroInicio;
+		DoubleNode<T> auxPointer = topPointer;
 		for (int i = 0; i < posicao; i++) {
-			ponteiroAuxiliar = ponteiroAuxiliar.getProximo();
+			auxPointer = auxPointer.getNext();
 		}
 
-		NoDuplo<T> ponteiroAnterior = ponteiroAuxiliar.getAnterior();
-		NoDuplo<T> ponteiroProximo = ponteiroAuxiliar.getProximo();
+		DoubleNode<T> ponteiroAnterior = auxPointer.getPrev();
+		DoubleNode<T> ponteiroProximo = auxPointer.getNext();
 
 		if (ponteiroAnterior != null) {
-			ponteiroAnterior.setProximo(ponteiroProximo);
-			// remocao do inicio, joga o ponteiro de inicio para o proximo nodo.
+			ponteiroAnterior.setNext(ponteiroProximo);
 		} else {
-			ponteiroInicio = ponteiroInicio.getProximo();
+			topPointer = topPointer.getNext();
 		}
 		if (ponteiroProximo != null) {
-			ponteiroProximo.setAnterior(ponteiroAnterior);
-			// remocao do fim, joga o ponteiro de fim para o nodo anterior.
+			ponteiroProximo.setPrev(ponteiroAnterior);
 		} else {
-			ponteiroFim = ponteiroFim.getAnterior();
+			ponteiroFim = ponteiroFim.getPrev();
 		}
 
-		quantidade--;
-		return ponteiroAuxiliar.getDado();
+		amount--;
+		return auxPointer.getData();
 	}
 
-	/**
-	 * Verifica se a lista está cheia.
-	 *
-	 * @return true se a lista estiver cheia, false caso contrário
-	 */
 	@Override
-	public boolean estaCheia() {
-		return (quantidade == tamanho);
+	public boolean isFull() {
+		return (amount == size);
 	}
 
-	/**
-	 * Verifica se a lista está vazia.
-	 *
-	 * @return true se a lista estiver vazia, false caso contrário
-	 */
 	@Override
-	public boolean estaVazia() {
-		return (quantidade == 0);
+	public boolean isEmpty() {
+		return (amount == 0);
 	}
 
-	/**
-	 * Retorna uma representação em string da lista.
-	 * Os elementos são separados por vírgula e delimitados por colchetes.
-	 *
-	 * @return string representando a lista
-	 */
 	@Override
 	public String print() {
 		String resultado = "[";
 		DoubleNode<T> ponteiroAuxiliar = topPointer;
-		for (int i = 0; i < quantidade; i++) {
-			resultado += ponteiroAuxiliar.getDado();
-			if (i != quantidade - 1) {
+		for (int i = 0; i < amount; i++) {
+			resultado += ponteiroAuxiliar.getData();
+			if (i != amount - 1) {
 				resultado += ",";
 			}
-			ponteiroAuxiliar = ponteiroAuxiliar.getProximo();
+			ponteiroAuxiliar = ponteiroAuxiliar.getNext();
 		}
 		return resultado + "]";
 	}
