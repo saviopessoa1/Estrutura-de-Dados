@@ -3,7 +3,7 @@ package br.ifba.vca.bsi;
 /**
  * Implementação do algoritmo de ordenação Bubble Sort (Ordenação por Bolha).
  *
- * @author Sávio Neri Pessoa (e Gemini)
+ * @author Sávio Neri Pessoa
  * @version 1.1
  */
 public class BubbleSort {

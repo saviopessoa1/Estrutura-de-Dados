@@ -3,7 +3,7 @@ package br.ifba.vca.bsi;
 /**
  * Implementação do algoritmo de ordenação Selection Sort (Ordenação por Seleção).
  *
- * @author Sávio Neri Pessoa (e Gemini)
+ * @author Sávio Neri Pessoa
  * @version 1.0
  */
 public class SelectionSort {
@@ -25,21 +25,19 @@ public class SelectionSort {
      */
     public static void sort(int[] array) {
         // n é o tamanho do array
-        int n = array.length;
-
         // Loop externo: itera por todas as posições do array.
         // 'i' é a posição atual que estamos tentando preencher com o
         // elemento correto (o i-ésimo menor elemento).
         // Vai até n-2, pois quando 'i' for o penúltimo, o último (n-1)
         // já estará correto por consequência.
-        for (int i = 0; i < n - 1; i++) {
+        for (int i = 0; i < array.length - 1; i++) {
 
             // Assume que o menor elemento é o que está na posição 'i' (início da parte não ordenada)
             int indiceDoMenor = i;
 
             // Loop interno: procura pelo índice do menor elemento no restante do array
             // (da posição i+1 até o final).
-            for (int j = i + 1; j < n; j++) {
+            for (int j = i + 1; j < array.length; j++) {
                 // Se encontrar um elemento (na posição j) que é menor
                 // que o menor elemento atual (na posição indiceDoMenor)...
                 if (array[j] < array[indiceDoMenor]) {
