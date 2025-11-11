@@ -11,5 +11,4 @@ public interface Queueable<T> {
         public T tail();
         public String printFrontTorear();
         public String printRearTorear();
-        T sort ();
 }
